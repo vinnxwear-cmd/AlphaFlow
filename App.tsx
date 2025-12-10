@@ -1,17 +1,17 @@
 
 import React, { useState, useEffect } from 'react';
 import { HashRouter } from 'react-router-dom';
-import Layout from './components/Layout';
-import Dashboard from './components/Dashboard';
-import Schedule from './components/Schedule';
-import Clients from './components/Clients';
-import Financial from './components/Financial';
-import Services from './components/Services';
-import Products from './components/Products';
-import Login from './components/Login';
-import POS, { CartItem } from './components/POS';
-import Team from './components/Team';
-import Settings from './components/Settings';
+import Layout from './componentes/Layout';
+import Dashboard from './componentes/Dashboard';
+import Schedule from './componentes/Schedule';
+import Clients from './componentes/Clients';
+import Financial from './componentes/Financial';
+import Services from './componentes/Services';
+import Products from './componentes/Products';
+import Login from './componentes/Login';
+import POS, { CartItem } from './componentes/POS';
+import Team from './componentes/Team';
+import Settings from './componentes/Settings';
 import { AppMode, Service, Product, Client, FinancialRecord, User, SystemConfig, UserRole, Appointment } from './types';
 import { 
   MOCK_USERS, 
