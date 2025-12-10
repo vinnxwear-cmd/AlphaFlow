@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { HashRouter } from 'react-router-dom';
 import Layout from './componentes/Layout';
@@ -12,16 +11,16 @@ import Login from './componentes/Login';
 import POS, { CartItem } from './componentes/POS';
 import Team from './componentes/Team';
 import Settings from './componentes/Settings';
-import { AppMode, Service, Product, Client, FinancialRecord, User, SystemConfig, UserRole, Appointment } from './types';
-import { 
-  MOCK_USERS, 
-  MOCK_APPOINTMENTS, 
-  MOCK_CLIENTS, 
-  MOCK_FINANCIALS, 
-  MOCK_SERVICES_BARBER, 
+import { AppMode, Service, Product, Client, FinancialRecord, User, SystemConfig, UserRole, Appointment } from './tipos';
+import {
+  MOCK_USERS,
+  MOCK_APPOINTMENTS,
+  MOCK_CLIENTS,
+  MOCK_FINANCIALS,
+  MOCK_SERVICES_BARBER,
   MOCK_SERVICES_CLINIC,
   MOCK_PRODUCTS
-} from './constants';
+} from './constantes';
 
 const App: React.FC = () => {
   // Initialize with null to show Login screen
