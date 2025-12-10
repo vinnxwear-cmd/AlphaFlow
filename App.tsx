@@ -24,7 +24,8 @@ import {
 } from './constants';
 
 const App: React.FC = () => {
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  // Initialize with Admin user to bypass login screen
+  const [currentUser, setCurrentUser] = useState<User | null>(MOCK_USERS[0]);
   const [activeTab, setActiveTab] = useState('dashboard');
   const [appMode, setAppMode] = useState<AppMode>(AppMode.BARBER);
   
