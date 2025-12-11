@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Lock, Mail, ArrowRight, AlertCircle } from 'lucide-react';
 import { User } from '../types';
-import { supabase } from '../serviços/supabase';
 
 interface LoginProps {
   onLogin: (user: User) => void;
@@ -14,30 +13,17 @@ const Login: React.FC<LoginProps> = ({ onLogin, users, systemName }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-
-    try {
-      // Tenta fazer login no Supabase
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: email,
-        password: password,
-      });
-
-      if (error) {
-        setError('Erro ao entrar: ' + error.message);
-      } else {
-        // Se der certo, avisa o sistema que logou
-        // O "data.user" contém os dados reais do Supabase agora
-        if (data.user) {
-             // Aqui adaptamos para o formato que seu app espera, ou recarregamos a página
-             // Por enquanto, vamos apenas recarregar para ele pegar a sessão
-             window.location.reload(); 
-        }
-      }
-    } catch (err) {
-      setError('Ocorreu um erro inesperado.');
+    
+    // Find user
+    const user = users.find(u => u.email === email && u.password === password);
+    
+    if (user) {
+      onLogin(user);
+    } else {
+      setError('Credenciais inválidas. Tente novamente.');
     }
   };
 
