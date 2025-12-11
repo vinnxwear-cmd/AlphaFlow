@@ -19,6 +19,13 @@ export interface User {
   avatarUrl?: string;
 }
 
+export interface VisagismProfile {
+  faceShape: string;
+  hairType: string;
+  beardStyle: string;
+  notes?: string;
+}
+
 export interface Client {
   id: string;
   name: string;
@@ -36,6 +43,7 @@ export interface Client {
   totalSpent: number;
   notes?: string;
   medicalRecord?: string; // For Clinics
+  visagismProfile?: VisagismProfile;
 }
 
 export interface Service {
@@ -54,6 +62,7 @@ export interface Product {
   stock: number;
   category: string;
   commissionPercentage?: number;
+  recommendedFor?: string[];
 }
 
 export interface Appointment {

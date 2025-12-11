@@ -1,8 +1,7 @@
 
 import React, { useState } from 'react';
 import { FinancialRecord, User, UserRole, Appointment, Service } from '../types';
-import { getFinancialAnalysis } from '../services/geminiService';
-import { DollarSign, ArrowUpCircle, ArrowDownCircle, PieChart, Calendar, Filter, User as UserIcon } from 'lucide-react';
+import { DollarSign, ArrowUpCircle, ArrowDownCircle, Filter, User as UserIcon } from 'lucide-react';
 
 interface FinancialProps {
   records: FinancialRecord[];
@@ -15,9 +14,6 @@ interface FinancialProps {
 type FilterPeriod = 'day' | 'week' | 'month';
 
 const Financial: React.FC<FinancialProps> = ({ records, currentUser, users, appointments, services }) => {
-  const [analysis, setAnalysis] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-  
   // Filters
   const [filterPeriod, setFilterPeriod] = useState<FilterPeriod>('month');
   const [selectedProfessionalId, setSelectedProfessionalId] = useState<string>(
@@ -104,13 +100,6 @@ const Financial: React.FC<FinancialProps> = ({ records, currentUser, users, appo
     return { totalCommission, totalServices };
   };
 
-  const handleAnalyze = async () => {
-    setLoading(true);
-    const result = await getFinancialAnalysis(visibleRecords);
-    setAnalysis(result);
-    setLoading(false);
-  };
-
   return (
     <div className="space-y-6">
       {/* Header & Controls */}
@@ -150,28 +139,8 @@ const Financial: React.FC<FinancialProps> = ({ records, currentUser, users, appo
               </select>
             </div>
           )}
-
-          <button 
-            onClick={handleAnalyze}
-            className="px-4 py-2 bg-purple-600/20 text-purple-300 border border-purple-500/30 rounded-lg font-bold flex items-center gap-2 transition-all hover:bg-purple-600/30"
-          >
-            {loading ? '...' : <><PieChart size={18} /> IA Report</>}
-          </button>
         </div>
       </div>
-
-      {analysis && (
-        <div className="bg-slate-800 border border-purple-500/30 p-6 rounded-xl animate-fade-in shadow-2xl shadow-purple-900/10">
-          <h3 className="text-purple-400 font-bold mb-3 flex items-center gap-2">
-            Análise Inteligente
-          </h3>
-          <div className="prose prose-invert prose-sm max-w-none">
-            {analysis.split('\n').map((line, i) => (
-              <p key={i} className="mb-1 text-slate-300">{line}</p>
-            ))}
-          </div>
-        </div>
-      )}
 
       {/* Summary Cards */}
       <div className={`grid grid-cols-1 ${isProfessional ? 'md:grid-cols-2' : 'md:grid-cols-3'} gap-4`}>

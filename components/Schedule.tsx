@@ -1,8 +1,7 @@
 
 import React, { useState } from 'react';
 import { Appointment, AppMode, User, UserRole, Client, Service } from '../types';
-import { Clock, Plus, CheckCircle, MessageSquare, ChevronLeft, ChevronRight, Calendar as CalendarIcon, MoreHorizontal, X, Trash2, Edit2, Lock, User as UserIcon } from 'lucide-react';
-import { getSmartSchedulingSuggestion } from '../services/geminiService';
+import { Clock, Plus, CheckCircle, ChevronLeft, ChevronRight, Calendar as CalendarIcon, X, Trash2, Lock, User as UserIcon } from 'lucide-react';
 
 interface ScheduleProps {
   appointments: Appointment[];
@@ -31,8 +30,6 @@ const Schedule: React.FC<ScheduleProps> = ({
 }) => {
   const [viewMode, setViewMode] = useState<ViewMode>('day');
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [suggestion, setSuggestion] = useState<string | null>(null);
-  const [loadingAi, setLoadingAi] = useState(false);
   
   // Filter state
   const [selectedProfessionalId, setSelectedProfessionalId] = useState<string>(
@@ -186,13 +183,6 @@ const Schedule: React.FC<ScheduleProps> = ({
       return currentDate.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
     }
     return currentDate.toLocaleDateString('pt-BR', options);
-  };
-
-  const handleAiSuggest = async () => {
-    setLoadingAi(true);
-    const result = await getSmartSchedulingSuggestion(filteredAppointments, currentDate.toLocaleDateString());
-    setSuggestion(result || "Nenhuma sugestão disponível.");
-    setLoadingAi(false);
   };
 
   // --- Views ---
@@ -460,12 +450,6 @@ const Schedule: React.FC<ScheduleProps> = ({
 
           <div className="flex gap-2 w-full sm:w-auto">
             <button 
-              onClick={handleAiSuggest}
-              className="flex-1 sm:flex-none px-4 py-2 bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 border border-purple-600/50 rounded-lg font-medium transition-colors flex items-center justify-center gap-2 text-sm"
-            >
-              {loadingAi ? '...' : <><MessageSquare size={16} /> IA Sugestão</>}
-            </button>
-            <button 
               onClick={() => handleOpenModal()}
               className="flex-1 sm:flex-none px-4 py-2 bg-green-500 hover:bg-green-400 text-slate-900 rounded-lg font-bold transition-colors flex items-center justify-center gap-2 text-sm"
             >
@@ -474,18 +458,6 @@ const Schedule: React.FC<ScheduleProps> = ({
           </div>
         </div>
       </div>
-
-      {suggestion && (
-        <div className="bg-gradient-to-r from-purple-900/40 to-slate-900 border border-purple-500/30 p-4 rounded-xl animate-fade-in flex items-start gap-3">
-          <div className="p-2 bg-purple-500/20 rounded-lg text-purple-400 shrink-0">
-             <MessageSquare size={20} />
-          </div>
-          <div>
-             <h4 className="font-bold text-purple-200 mb-1 text-sm">Sugestão da Neon AI</h4>
-             <p className="text-sm text-slate-300 whitespace-pre-wrap leading-relaxed">{suggestion}</p>
-          </div>
-        </div>
-      )}
 
       {/* Render Active View */}
       {viewMode === 'day' && renderDayView()}
